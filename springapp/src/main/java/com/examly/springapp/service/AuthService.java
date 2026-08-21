@@ -2,6 +2,7 @@ package com.examly.springapp.service;
 
 import com.examly.springapp.entity.User;
 import com.examly.springapp.entity.UserProfile;
+import com.examly.springapp.dto.RegisterRequest;
 import com.examly.springapp.enums.Role;
 import com.examly.springapp.repository.UserProfileRepository;
 import com.examly.springapp.repository.UserRepository;
@@ -33,19 +34,19 @@ public class AuthService {
     private JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public User registerUser(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
+    public User registerUser(RegisterRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new IllegalArgumentException("Username is already taken");
         }
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("Email is already in use");
         }
 
-        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-        
-        if (user.getRole() == null) {
-            user.setRole(Role.USER);
-        }
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER);
 
         User savedUser = userRepository.save(user);
 

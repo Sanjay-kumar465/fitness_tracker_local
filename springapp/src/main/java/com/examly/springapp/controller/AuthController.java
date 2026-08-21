@@ -1,9 +1,11 @@
 package com.examly.springapp.controller;
 import com.examly.springapp.entity.User;
+import com.examly.springapp.dto.RegisterRequest;
 import com.examly.springapp.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.Map;
 
 @RestController
@@ -13,8 +15,8 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        return ResponseEntity.ok(authService.registerUser(user));
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.registerUser(request));
     }
 
     @PostMapping("/login")
