@@ -136,7 +136,7 @@ const WorkoutsPage = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="app-header">
         <h1 className="page-title">Workouts</h1>
       </div>
@@ -145,7 +145,7 @@ const WorkoutsPage = () => {
         {/* Left Column: Workouts List */}
         <div>
           <div className="content-card">
-            <h2 className="card-title" style={{ marginBottom: '1.5rem' }}>Workout History</h2>
+            <h2 className="card-title" style={{ marginBottom: '24px' }}>Workout History</h2>
 
             {loading ? (
               <div className="spinner-container">
@@ -164,26 +164,26 @@ const WorkoutsPage = () => {
             ) : (
               <div className="workout-list">
                 {workouts.map((workout) => (
-                  <div key={workout.id} className="workout-item" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '1rem' }}>
+                  <div key={workout.id} className="workout-item" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                       <div>
-                        <span className="item-title" style={{ fontSize: '1.1rem' }}>
+                        <span className="item-title" style={{ fontSize: '17.6px' }}>
                           Workout Session
                         </span>
-                        <span className="item-details" style={{ display: 'block', marginTop: '0.2rem' }}>
+                        <span className="item-details" style={{ display: 'block', marginTop: '3.2px' }}>
                           Date: {workout.date} | Duration: {workout.duration} minutes
                         </span>
                       </div>
                       {workout.notes && (
-                        <div style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#6B5E5B', maxWidth: '300px', textAlign: 'right' }}>
+                        <div style={{ fontSize: '13.6px', fontStyle: 'italic', color: '#6B5E5B', maxWidth: '300px', textAlign: 'right' }}>
                           Note: {workout.notes}
                         </div>
                       )}
                     </div>
 
                     {workout.exercises && workout.exercises.length > 0 && (
-                      <div style={{ marginTop: '0.5rem', borderTop: '1px solid #DCD2CE', paddingTop: '0.5rem' }}>
-                        <h4 style={{ fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', color: '#6B5E5B', marginBottom: '0.5rem' }}>
+                      <div style={{ marginTop: '8px', borderTop: '1px solid #DCD2CE', paddingTop: '8px' }}>
+                        <h4 style={{ fontSize: '13.6px', fontWeight: 600, textTransform: 'uppercase', color: '#6B5E5B', marginBottom: '8px' }}>
                           Completed Exercises
                         </h4>
                         <div className="responsive-table-container">
@@ -222,7 +222,7 @@ const WorkoutsPage = () => {
         {/* Right Column: Workout Logger Form */}
         <div>
           <div className="content-card">
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>Log Workout</h3>
+            <h3 className="card-title" style={{ marginBottom: '24px' }}>Log Workout</h3>
             
             <form onSubmit={handleSubmitWorkout}>
               <div className="form-group">
@@ -260,17 +260,17 @@ const WorkoutsPage = () => {
               </div>
 
               {/* Exercises section inside Workout logger */}
-              <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem', borderTop: '1px solid #DCD2CE', paddingTop: '1.5rem' }}>
-                <h4 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: '1rem' }}>Exercises Completed</h4>
+              <div style={{ marginTop: '24px', marginBottom: '24px', borderTop: '1px solid #DCD2CE', paddingTop: '24px' }}>
+                <h4 style={{ fontSize: '15.2px', fontWeight: 600, marginBottom: '16px' }}>Exercises Completed</h4>
 
                 {exercises.length > 0 && (
-                  <div style={{ marginBottom: '1rem' }}>
+                  <div style={{ marginBottom: '16px' }}>
                     {exercises.map((ex) => (
-                      <div key={ex.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem', border: '1px solid #DCD2CE', borderRadius: '4px', marginBottom: '0.5rem', backgroundColor: '#FAF8F7', fontSize: '0.85rem' }}>
+                      <div key={ex.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px', border: '1px solid #DCD2CE', borderRadius: '4px', marginBottom: '8px', backgroundColor: '#FAF8F7', fontSize: '13.6px' }}>
                         <span>
                           <strong>{ex.exercise.name}</strong> - {ex.sets} sets x {ex.reps} reps ({ex.weight}kg)
                         </span>
-                        <button type="button" className="btn btn-danger btn-sm" onClick={() => handleRemoveExercise(ex.id)} style={{ padding: '0.2rem 0.5rem' }}>
+                        <button type="button" className="btn btn-danger btn-sm" onClick={() => handleRemoveExercise(ex.id)} style={{ padding: '3.2px 8px' }}>
                           Remove
                         </button>
                       </div>
@@ -279,7 +279,7 @@ const WorkoutsPage = () => {
                 )}
 
                 {/* Add Exercise form row */}
-                <div style={{ backgroundColor: '#FAF8F7', padding: '1rem', borderRadius: '6px', border: '1px solid #DCD2CE', marginBottom: '1rem' }}>
+                <div style={{ backgroundColor: '#FAF8F7', padding: '16px', borderRadius: '6px', border: '1px solid #DCD2CE', marginBottom: '16px' }}>
                   <div className="form-group">
                     <label className="form-label">Exercise Name</label>
                     <input

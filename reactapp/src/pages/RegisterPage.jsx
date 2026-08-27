@@ -106,7 +106,7 @@ const RegisterPage = () => {
     <div className="auth-container">
       <div className="auth-card" style={{ maxWidth: '500px' }}>
         <div className="auth-header">
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontWeight: '700', fontSize: '1rem', marginBottom: '1rem', color: '#1F1B1A' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6.4px', fontWeight: '700', fontSize: '16px', marginBottom: '16px', color: '#1F1B1A' }}>
             <div style={{ width: '8px', height: '8px', backgroundColor: '#eaff42', borderRadius: '50%' }}></div>
             <span>AURA FIT</span>
           </div>
@@ -173,7 +173,7 @@ const RegisterPage = () => {
             />
           </div>
 
-          <div className="form-group" style={{ marginBottom: '2rem' }}>
+          <div className="form-group" style={{ marginBottom: '32px' }}>
             <label className="form-label" htmlFor="fitness-level">Fitness Level</label>
             <select
               id="fitness-level"

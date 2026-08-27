@@ -34,10 +34,10 @@ const AdminPage = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="app-header">
         <h1 className="page-title">Admin Dashboard</h1>
-        <span className="tag tag-cancelled" style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}>Admin Role</span>
+        <span className="tag tag-cancelled" style={{ fontSize: '12.8px', padding: '6.4px 12.8px' }}>Admin Role</span>
       </div>
 
       <div className="stats-grid">
@@ -47,16 +47,16 @@ const AdminPage = () => {
         </div>
         <div className="stat-card">
           <span className="stat-label">Database Status</span>
-          <span className="stat-value" style={{ fontSize: '1.5rem', color: '#27AE60' }}>ONLINE</span>
+          <span className="stat-value" style={{ fontSize: '24px', color: '#27AE60' }}>ONLINE</span>
         </div>
         <div className="stat-card">
           <span className="stat-label">CORS Context</span>
-          <span className="stat-value" style={{ fontSize: '1.2rem' }}>8080 - 8081</span>
+          <span className="stat-value" style={{ fontSize: '19.2px' }}>8080 - 8081</span>
         </div>
       </div>
 
       <div className="content-card">
-        <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>User Management</h3>
+        <h3 className="card-title" style={{ marginBottom: '24px' }}>User Management</h3>
 
         {error && <div className="alert alert-danger">{error}</div>}
 

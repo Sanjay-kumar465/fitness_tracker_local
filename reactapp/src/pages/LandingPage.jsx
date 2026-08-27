@@ -16,12 +16,12 @@ const LandingPage = () => {
     <div className="landing-container">
       {/* Landing Navbar */}
       <header className="landing-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '700', fontSize: '1.2rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', fontSize: '19.2px' }}>
           <div style={{ width: '10px', height: '10px', backgroundColor: '#eaff42', borderRadius: '50%' }}></div>
           <span>AURA FIT</span>
         </div>
-        <div className="landing-nav" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <span style={{ fontWeight: '600', cursor: 'pointer', fontSize: '0.9rem' }} onClick={() => navigate('/')}>Home</span>
+        <div className="landing-nav" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <span style={{ fontWeight: '600', cursor: 'pointer', fontSize: '14.4px' }} onClick={() => navigate('/')}>Home</span>
           <button className="btn btn-outline btn-sm" onClick={() => navigate('/login')}>
             Login
           </button>
@@ -38,7 +38,7 @@ const LandingPage = () => {
           <p className="hero-description">
             Aura Fit is a clean, minimal, and premium fitness tracker designed to help you set concrete targets, log daily activities, and monitor your physical transformation journey over time.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+          <div style={{ display: 'flex', gap: '16px', marginTop: '16px' }}>
             <button className="btn btn-primary" onClick={() => navigate('/register')}>
               Get Started
             </button>
@@ -110,7 +110,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '2rem', textAlign: 'center', fontSize: '0.85rem', color: '#6B5E5B', borderTop: '1px solid #DCD2CE' }}>
+      <footer style={{ padding: '32px', textAlign: 'center', fontSize: '13.6px', color: '#6B5E5B', borderTop: '1px solid #DCD2CE' }}>
         &copy; {new Date().getFullYear()} Aura Fit. All rights reserved.
       </footer>
     </div>

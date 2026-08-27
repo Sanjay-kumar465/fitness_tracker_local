@@ -32,15 +32,15 @@ const AnalyticsPage = () => {
 
   if (error) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <div className="app-header">
           <h1 className="page-title">Premium Analytics</h1>
         </div>
-        <div className="content-card" style={{ textAlign: 'center', padding: '3rem' }}>
-          <svg style={{ width: '48px', height: '48px', fill: '#6B5E5B', marginBottom: '1rem' }} viewBox="0 0 24 24">
+        <div className="content-card" style={{ textAlign: 'center', padding: '48px' }}>
+          <svg style={{ width: '48px', height: '48px', fill: '#6B5E5B', marginBottom: '16px' }} viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
           </svg>
-          <p style={{ fontSize: '1.1rem', fontWeight: '500', color: '#6B5E5B' }}>{error}</p>
+          <p style={{ fontSize: '17.6px', fontWeight: '500', color: '#6B5E5B' }}>{error}</p>
         </div>
       </div>
     );
@@ -50,10 +50,10 @@ const AnalyticsPage = () => {
   const maxVal = Math.max(totalGoals, totalWorkouts, totalNutritionEntries, totalProgressRecords, 1);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="app-header">
         <h1 className="page-title">Premium Analytics</h1>
-        <span className="tag tag-active" style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}>Premium Active</span>
+        <span className="tag tag-active" style={{ fontSize: '12.8px', padding: '6.4px 12.8px' }}>Premium Active</span>
       </div>
 
       <div className="stats-grid">
@@ -76,7 +76,7 @@ const AnalyticsPage = () => {
       </div>
 
       <div className="content-card">
-        <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>Metrics Distribution</h3>
+        <h3 className="card-title" style={{ marginBottom: '24px' }}>Metrics Distribution</h3>
         
         <div className="chart-bar-list" style={{ maxWidth: '600px' }}>
           <div className="chart-bar-item">

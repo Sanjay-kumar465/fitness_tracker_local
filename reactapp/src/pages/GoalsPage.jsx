@@ -99,7 +99,7 @@ const GoalsPage = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="app-header">
         <h1 className="page-title">Fitness Goals</h1>
       </div>
@@ -108,7 +108,7 @@ const GoalsPage = () => {
         {/* Left Column: Goals List */}
         <div>
           <div className="content-card">
-            <h2 className="card-title" style={{ marginBottom: '1.5rem' }}>Current Goals</h2>
+            <h2 className="card-title" style={{ marginBottom: '24px' }}>Current Goals</h2>
 
             {loading ? (
               <div className="spinner-container">
@@ -127,7 +127,7 @@ const GoalsPage = () => {
             ) : (
               <div className="goal-list">
                 {goals.map((goal) => (
-                  <div key={goal.id} className="goal-item" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '1rem' }}>
+                  <div key={goal.id} className="goal-item" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div className="item-info">
                         <span className="item-title" style={{ textTransform: 'capitalize' }}>
@@ -137,7 +137,7 @@ const GoalsPage = () => {
                           Timeline: {goal.startDate} to {goal.targetDate}
                         </span>
                       </div>
-                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', gap: '8px' }}>
                         <span className={`tag ${getStatusClass(goal.status)}`}>
                           {goal.status ? goal.status.replace('_', ' ') : 'NOT STARTED'}
                         </span>
@@ -147,9 +147,9 @@ const GoalsPage = () => {
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px' }}>
                       <div style={{ flexGrow: 1 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '0.25rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13.6px', marginBottom: '4px' }}>
                           <span>Progress: {goal.currentValue} / {goal.targetValue}</span>
                           <span>{Math.round(goal.targetValue > 0 ? (goal.currentValue / goal.targetValue) * 100 : 0)}%</span>
                         </div>
@@ -175,8 +175,8 @@ const GoalsPage = () => {
 
                     {/* Inline Edit Form */}
                     {editingGoal === goal.id && (
-                      <form onSubmit={handleEditSubmit} className="content-card" style={{ marginTop: '1rem', backgroundColor: '#FAF8F7', borderStyle: 'dashed' }}>
-                        <h4 style={{ marginBottom: '1rem', fontSize: '0.95rem', fontWeight: 600 }}>Edit Goal Progress</h4>
+                      <form onSubmit={handleEditSubmit} className="content-card" style={{ marginTop: '16px', backgroundColor: '#FAF8F7', borderStyle: 'dashed' }}>
+                        <h4 style={{ marginBottom: '16px', fontSize: '15.2px', fontWeight: 600 }}>Edit Goal Progress</h4>
                         
                         <div className="form-row">
                           <div className="form-group">
@@ -228,7 +228,7 @@ const GoalsPage = () => {
                           </div>
                         </div>
 
-                        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '16px' }}>
                           <button type="button" className="btn btn-secondary btn-sm" onClick={() => setEditingGoal(null)}>
                             Cancel
                           </button>

@@ -43,10 +43,10 @@ const NotificationsPage = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
       <div className="app-header">
         <h1 className="page-title">Notifications</h1>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
           <button
             className={`btn ${filter === 'ALL' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
             onClick={() => setFilter('ALL')}
@@ -85,19 +85,19 @@ const NotificationsPage = () => {
               style={{
                 borderLeft: notif.isRead ? '1px solid #DCD2CE' : '4px solid #eaff42',
                 backgroundColor: notif.isRead ? '#FFFFFF' : 'rgba(214, 195, 188, 0.1)',
-                padding: '1.25rem',
+                padding: '20px',
               }}
             >
               <div className="item-info" style={{ flexGrow: 1 }}>
-                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.25rem' }}>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '4px' }}>
                   <span className={`tag ${getNotificationTypeClass(notif.type)}`}>
                     {notif.type || 'System'}
                   </span>
-                  <span style={{ fontSize: '0.8rem', color: '#6B5E5B' }}>
+                  <span style={{ fontSize: '12.8px', color: '#6B5E5B' }}>
                     {notif.createdDate ? notif.createdDate.replace('T', ' ').substring(0, 16) : ''}
                   </span>
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: notif.isRead ? '400' : '600' }}>
+                <div style={{ fontSize: '15.2px', fontWeight: notif.isRead ? '400' : '600' }}>
                   {notif.message}
                 </div>
               </div>

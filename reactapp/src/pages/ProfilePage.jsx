@@ -70,7 +70,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
       <div className="app-header">
         <h1 className="page-title">User Profile</h1>
       </div>
@@ -79,13 +79,13 @@ const ProfilePage = () => {
       {success && <div className="alert alert-success">{success}</div>}
 
       <div className="content-card">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2rem', borderBottom: '1px solid #DCD2CE', paddingBottom: '1.5rem' }}>
-          <div style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#D6C3BC', display: 'flex', justifyContent: 'center', alignContent: 'center', alignItems: 'center', fontSize: '1.5rem', fontWeight: 700, color: '#1F1B1A' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '32px', borderBottom: '1px solid #DCD2CE', paddingBottom: '24px' }}>
+          <div style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#D6C3BC', display: 'flex', justifyContent: 'center', alignContent: 'center', alignItems: 'center', fontSize: '24px', fontWeight: 700, color: '#1F1B1A' }}>
             {profile?.user?.username ? profile.user.username.substring(0, 2).toUpperCase() : 'U'}
           </div>
           <div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 700 }}>{profile?.user?.username || 'User'}</h3>
-            <p style={{ fontSize: '0.85rem', color: '#6B5E5B' }}>{profile?.user?.email || 'email@example.com'}</p>
+            <h3 style={{ fontSize: '19.2px', fontWeight: 700 }}>{profile?.user?.username || 'User'}</h3>
+            <p style={{ fontSize: '13.6px', color: '#6B5E5B' }}>{profile?.user?.email || 'email@example.com'}</p>
           </div>
         </div>
 
@@ -143,7 +143,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="form-group" style={{ marginBottom: '2rem' }}>
+          <div className="form-group" style={{ marginBottom: '32px' }}>
             <label className="form-label">Health Conditions</label>
             <textarea
               placeholder="e.g. Asthma, High Blood Pressure, Gluten Intolerance..."
@@ -154,7 +154,7 @@ const ProfilePage = () => {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ padding: '0.75rem 2rem' }}>
+          <button type="submit" className="btn btn-primary" style={{ padding: '12px 32px' }}>
             Save Profile Settings
           </button>
         </form>

@@ -91,7 +91,7 @@ const ProgressPage = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="app-header">
         <h1 className="page-title">Progress Tracking</h1>
       </div>
@@ -103,13 +103,13 @@ const ProgressPage = () => {
       ) : error ? (
         <div className="alert alert-danger">{error}</div>
       ) : goals.length === 0 ? (
-        <div className="empty-state" style={{ padding: '4rem' }}>
+        <div className="empty-state" style={{ padding: '64px' }}>
           <svg viewBox="0 0 24 24">
             <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z" />
           </svg>
           <div className="empty-title">No goals available to track</div>
           <div className="empty-subtitle">You must create a Fitness Goal before you can track progress.</div>
-          <a href="/goals" className="btn btn-primary" style={{ marginTop: '1.5rem' }}>
+          <a href="/goals" className="btn btn-primary" style={{ marginTop: '24px' }}>
             Go to Goals
           </a>
         </div>
@@ -118,8 +118,8 @@ const ProgressPage = () => {
           {/* Left Column: Progress logs & Simple Charts */}
           <div>
             <div className="content-card">
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label className="form-label" htmlFor="goal-select" style={{ fontSize: '0.95rem' }}>Select Fitness Goal to Track:</label>
+              <div style={{ marginBottom: '24px' }}>
+                <label className="form-label" htmlFor="goal-select" style={{ fontSize: '15.2px' }}>Select Fitness Goal to Track:</label>
                 <select
                   id="goal-select"
                   className="form-control"
@@ -136,7 +136,7 @@ const ProgressPage = () => {
               </div>
 
               {selectedGoalId && getSelectedGoal() && (
-                <div style={{ display: 'flex', gap: '1rem', backgroundColor: '#FAF8F7', padding: '1rem', borderRadius: '6px', border: '1px solid #DCD2CE', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+                <div style={{ display: 'flex', gap: '16px', backgroundColor: '#FAF8F7', padding: '16px', borderRadius: '6px', border: '1px solid #DCD2CE', marginBottom: '24px', fontSize: '14.4px' }}>
                   <div>
                     <strong>Type:</strong> <span style={{ textTransform: 'capitalize' }}>{getSelectedGoal().goalType.replace('_', ' ')}</span>
                   </div>
@@ -152,7 +152,7 @@ const ProgressPage = () => {
                 </div>
               )}
 
-              <h3 className="card-title" style={{ marginBottom: '1rem' }}>Progress History</h3>
+              <h3 className="card-title" style={{ marginBottom: '16px' }}>Progress History</h3>
 
               {loadingLogs ? (
                 <div className="spinner-container">
@@ -164,10 +164,10 @@ const ProgressPage = () => {
                   <div className="empty-subtitle">Log your first progress check-in on the right.</div>
                 </div>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {/* Visual Chart Bars (CSS-based) */}
-                  <div className="chart-bar-list" style={{ backgroundColor: '#FAF8F7', padding: '1.5rem', borderRadius: '8px', border: '1px solid #DCD2CE' }}>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', color: '#6B5E5B', marginBottom: '0.5rem' }}>
+                  <div className="chart-bar-list" style={{ backgroundColor: '#FAF8F7', padding: '24px', borderRadius: '8px', border: '1px solid #DCD2CE' }}>
+                    <div style={{ fontSize: '12.8px', fontWeight: 700, textTransform: 'uppercase', color: '#6B5E5B', marginBottom: '8px' }}>
                       Progress Trend (Value vs Date)
                     </div>
                     {progressLogs.map((log) => {
@@ -210,7 +210,7 @@ const ProgressPage = () => {
                           <tr key={log.id}>
                             <td style={{ fontWeight: '600' }}>{log.date}</td>
                             <td style={{ fontWeight: '700' }}>{log.progressValue}</td>
-                            <td style={{ color: '#6B5E5B', fontSize: '0.85rem' }}>{log.notes || 'No notes'}</td>
+                            <td style={{ color: '#6B5E5B', fontSize: '13.6px' }}>{log.notes || 'No notes'}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -224,7 +224,7 @@ const ProgressPage = () => {
           {/* Right Column: Progress Logger Form */}
           <div>
             <div className="content-card">
-              <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>Log Progress Update</h3>
+              <h3 className="card-title" style={{ marginBottom: '24px' }}>Log Progress Update</h3>
               
               <form onSubmit={handleSubmit}>
                 <div className="form-group">

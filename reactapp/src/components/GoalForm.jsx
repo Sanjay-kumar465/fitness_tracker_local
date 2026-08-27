@@ -55,7 +55,7 @@ const GoalForm = ({ onGoalAdded }) => {
 
   return (
     <form onSubmit={handleSubmit} className="content-card">
-      <h3 className="card-title" style={{ marginBottom: '1rem' }}>Add New Goal</h3>
+      <h3 className="card-title" style={{ marginBottom: '16px' }}>Add New Goal</h3>
       
       <div className="form-group">
         <label className="form-label">Goal Type</label>

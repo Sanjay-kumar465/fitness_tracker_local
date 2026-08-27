@@ -94,7 +94,7 @@ const NutritionPage = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="app-header">
         <h1 className="page-title">Nutrition</h1>
       </div>
@@ -103,7 +103,7 @@ const NutritionPage = () => {
         {/* Left Column: Nutrition Log List */}
         <div>
           <div className="content-card">
-            <h2 className="card-title" style={{ marginBottom: '1.5rem' }}>Meals Recorded</h2>
+            <h2 className="card-title" style={{ marginBottom: '24px' }}>Meals Recorded</h2>
 
             {loading ? (
               <div className="spinner-container">
@@ -143,7 +143,7 @@ const NutritionPage = () => {
                         </td>
                         <td>{entry.quantity}</td>
                         <td>{entry.calories} kcal</td>
-                        <td style={{ fontSize: '0.85rem', color: '#6B5E5B' }}>
+                        <td style={{ fontSize: '13.6px', color: '#6B5E5B' }}>
                           {entry.macronutrients || 'N/A'}
                         </td>
                         <td>{formatDateLabel(entry.date)}</td>
@@ -159,7 +159,7 @@ const NutritionPage = () => {
         {/* Right Column: Nutrition Logger Form */}
         <div>
           <div className="content-card">
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>Log Meal</h3>
+            <h3 className="card-title" style={{ marginBottom: '24px' }}>Log Meal</h3>
             
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -226,12 +226,12 @@ const NutritionPage = () => {
               </div>
 
               {/* Optional Macronutrients section */}
-              <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem', borderTop: '1px solid #DCD2CE', paddingTop: '1.5rem' }}>
-                <h4 style={{ fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.8rem' }}>Macronutrients (Optional)</h4>
+              <div style={{ marginTop: '24px', marginBottom: '24px', borderTop: '1px solid #DCD2CE', paddingTop: '24px' }}>
+                <h4 style={{ fontSize: '14.4px', fontWeight: 600, marginBottom: '12.8px' }}>Macronutrients (Optional)</h4>
                 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                   <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Carbs (g)</label>
+                    <label className="form-label" style={{ fontSize: '12px' }}>Carbs (g)</label>
                     <input
                       type="number"
                       placeholder="g"
@@ -241,7 +241,7 @@ const NutritionPage = () => {
                     />
                   </div>
                   <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Protein (g)</label>
+                    <label className="form-label" style={{ fontSize: '12px' }}>Protein (g)</label>
                     <input
                       type="number"
                       placeholder="g"
@@ -251,7 +251,7 @@ const NutritionPage = () => {
                     />
                   </div>
                   <div className="form-group" style={{ marginBottom: 0 }}>
-                    <label className="form-label" style={{ fontSize: '0.75rem' }}>Fat (g)</label>
+                    <label className="form-label" style={{ fontSize: '12px' }}>Fat (g)</label>
                     <input
                       type="number"
                       placeholder="g"

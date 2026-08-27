@@ -61,13 +61,13 @@ const Layout = ({ children }) => {
           height: '60px',
           backgroundColor: '#1F1B1A',
           color: '#FFFFFF',
-          padding: '0 1.5rem',
+          padding: '0 24px',
           zIndex: 110,
           borderBottom: '1px solid #332B29',
         }}
         className="mobile-nav-toggle"
       >
-        <span style={{ fontWeight: '700', fontSize: '1.2rem' }}>AURA FIT</span>
+        <span style={{ fontWeight: '700', fontSize: '19.2px' }}>AURA FIT</span>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           style={{ background: 'transparent', border: 'none', color: '#FFFFFF', cursor: 'pointer' }}

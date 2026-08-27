@@ -77,7 +77,7 @@ const SocialPage = () => {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div className="app-header">
         <h1 className="page-title">Social Connections</h1>
       </div>
@@ -90,7 +90,7 @@ const SocialPage = () => {
           {/* Incoming Requests */}
           {incomingRequests.length > 0 && (
             <div className="content-card" style={{ borderColor: '#eaff42', borderWidth: '2px' }}>
-              <h3 className="card-title" style={{ color: '#1F1B1A', marginBottom: '1rem' }}>
+              <h3 className="card-title" style={{ color: '#1F1B1A', marginBottom: '16px' }}>
                 Pending Friend Requests
               </h3>
               <div className="goal-list">
@@ -118,7 +118,7 @@ const SocialPage = () => {
 
           {/* Friends List */}
           <div className="content-card">
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>My Connections</h3>
+            <h3 className="card-title" style={{ marginBottom: '24px' }}>My Connections</h3>
 
             {loading ? (
               <div className="spinner-container">
@@ -140,7 +140,7 @@ const SocialPage = () => {
                   return (
                     <div key={friendship.id} className="goal-item">
                       <div className="item-info">
-                        <span className="item-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span className="item-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <span style={{ width: '8px', height: '8px', backgroundColor: '#eaff42', borderRadius: '50%' }}></span>
                           {friendInfo.username}
                         </span>
@@ -158,8 +158,8 @@ const SocialPage = () => {
 
           {/* Outgoing Pending Requests */}
           {outgoingRequests.length > 0 && (
-            <div className="content-card" style={{ marginTop: '1.5rem' }}>
-              <h3 className="card-title" style={{ marginBottom: '1rem', fontSize: '1rem' }}>
+            <div className="content-card" style={{ marginTop: '24px' }}>
+              <h3 className="card-title" style={{ marginBottom: '16px', fontSize: '16px' }}>
                 Sent Requests (Pending)
               </h3>
               <div className="goal-list">
@@ -180,7 +180,7 @@ const SocialPage = () => {
         {/* Right Column: Send Connection Form */}
         <div>
           <div className="content-card">
-            <h3 className="card-title" style={{ marginBottom: '1.5rem' }}>Send Request</h3>
+            <h3 className="card-title" style={{ marginBottom: '24px' }}>Send Request</h3>
             
             <form onSubmit={handleSendRequest}>
               <div className="form-group">
@@ -194,12 +194,12 @@ const SocialPage = () => {
                   required
                   disabled={submitting}
                 />
-                <p style={{ fontSize: '0.75rem', color: '#6B5E5B', marginTop: '0.4rem' }}>
+                <p style={{ fontSize: '12px', color: '#6B5E5B', marginTop: '6.4px' }}>
                   Enter the numerical database ID of the user you wish to connect with.
                 </p>
               </div>
 
-              <div className="form-group" style={{ marginBottom: '2rem' }}>
+              <div className="form-group" style={{ marginBottom: '32px' }}>
                 <label className="form-label">Connection Type</label>
                 <select
                   className="form-control"

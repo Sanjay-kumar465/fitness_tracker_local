@@ -19,10 +19,10 @@ const RoleRoute = ({ children, allowedRoles }) => {
 
   if (!hasAccess) {
     return (
-      <div style={{ padding: '3rem', textAlign: 'center' }}>
-        <h2 style={{ color: '#C0392B', marginBottom: '1rem' }}>Access Denied</h2>
+      <div style={{ padding: '48px', textAlign: 'center' }}>
+        <h2 style={{ color: '#C0392B', marginBottom: '16px' }}>Access Denied</h2>
         <p>You do not have the required permissions to view this page.</p>
-        <a href="/dashboard" className="btn btn-primary" style={{ marginTop: '1.5rem' }}>
+        <a href="/dashboard" className="btn btn-primary" style={{ marginTop: '24px' }}>
           Back to Dashboard
         </a>
       </div>
