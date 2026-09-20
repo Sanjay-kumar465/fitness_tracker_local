@@ -1,0 +1,4 @@
+com\examly\springapp\SpringappApplicationTest.class
+com\examly\springapp\UserSpecificPlansIntegrationTest.class
+com\examly\springapp\SpringappApplicationTests.class
+com\examly\springapp\RbacIntegrationTest.class
