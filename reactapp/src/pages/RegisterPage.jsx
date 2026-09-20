@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register, getToken } from '../api';
 
+import { Flame } from 'lucide-react';
+
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -9,6 +11,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [fitnessLevel, setFitnessLevel] = useState('BEGINNER');
+  const [role, setRole] = useState('STANDARD_USER');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,7 +38,6 @@ const RegisterPage = () => {
       setError('Please enter a valid email address');
       return false;
     }
-    // Password complexity check: 8 chars, 1 uppercase, 1 lowercase, 1 digit, 1 special char
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
     if (!passwordRegex.test(password)) {
       setError(
@@ -53,7 +55,6 @@ const RegisterPage = () => {
       setError('Date of Birth must be in the past');
       return false;
     }
-    // Age requirement check (e.g. 13 years old)
     const age = today.getFullYear() - dob.getFullYear();
     const monthDiff = today.getMonth() - dob.getMonth();
     const isUnderAge =
@@ -82,6 +83,7 @@ const RegisterPage = () => {
         password,
         dateOfBirth,
         fitnessLevel,
+        role,
       });
       setSuccess('Account created successfully! Redirecting to login...');
       setTimeout(() => {
@@ -106,9 +108,9 @@ const RegisterPage = () => {
     <div className="auth-container">
       <div className="auth-card" style={{ maxWidth: '500px' }}>
         <div className="auth-header">
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6.4px', fontWeight: '700', fontSize: '16px', marginBottom: '16px', color: '#1F1B1A' }}>
-            <div style={{ width: '8px', height: '8px', backgroundColor: '#eaff42', borderRadius: '50%' }}></div>
-            <span>AURA FIT</span>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: '800', fontSize: '18px', marginBottom: '16px', color: '#1F1B1A' }}>
+            <Flame size={22} color="#FF5500" fill="#FF5500" style={{ filter: 'drop-shadow(0 0 6px rgba(255, 85, 0, 0.5))' }} />
+            <span>FITS — Fitness Information & Tracking System</span>
           </div>
           <h2 className="auth-title">Create Account</h2>
           <p className="auth-subtitle">Join us to start tracking your goals</p>
@@ -173,7 +175,7 @@ const RegisterPage = () => {
             />
           </div>
 
-          <div className="form-group" style={{ marginBottom: '32px' }}>
+          <div className="form-group">
             <label className="form-label" htmlFor="fitness-level">Fitness Level</label>
             <select
               id="fitness-level"
@@ -185,6 +187,23 @@ const RegisterPage = () => {
               <option value="BEGINNER">Beginner</option>
               <option value="INTERMEDIATE">Intermediate</option>
               <option value="ADVANCED">Advanced</option>
+            </select>
+          </div>
+
+          <div className="form-group" style={{ marginBottom: '32px' }}>
+            <label className="form-label" htmlFor="user-role">Account Role</label>
+            <select
+              id="user-role"
+              className="form-control"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              disabled={loading}
+            >
+              <option value="USER">Standard User (USER)</option>
+              <option value="PREMIUM_USER">Premium User (PREMIUM_USER)</option>
+              <option value="TRAINER">Trainer (TRAINER)</option>
+              <option value="NUTRITIONIST">Nutritionist (NUTRITIONIST)</option>
+              <option value="ADMIN">Administrator (ADMIN)</option>
             </select>
           </div>
 

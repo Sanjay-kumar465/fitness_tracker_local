@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { fetchEntries } from '../api';
 
-const ActivityLog = () => {
-  const [entries, setEntries] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const ActivityLog = ({ entries: propEntries, loading: propLoading, error: propError }) => {
+  const [entries, setEntries] = useState(propEntries || []);
+  const [loading, setLoading] = useState(propLoading !== undefined ? propLoading : (propEntries ? false : true));
+  const [error, setError] = useState(propError || null);
 
   useEffect(() => {
+    if (propEntries !== undefined) {
+      setEntries(Array.isArray(propEntries) ? propEntries : []);
+      setLoading(propLoading !== undefined ? propLoading : false);
+      setError(propError || null);
+      return;
+    }
+
     let isMounted = true;
     const loadLog = async () => {
       try {
@@ -31,10 +38,12 @@ const ActivityLog = () => {
       }
     };
     loadLog();
+    window.addEventListener('mockDataLoaded', loadLog);
     return () => {
       isMounted = false;
+      window.removeEventListener('mockDataLoaded', loadLog);
     };
-  }, []);
+  }, [propEntries, propLoading, propError]);
 
   return (
     <div className="content-card">

@@ -1,183 +1,327 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getUsername, getRole, logout } from '../api';
+import { getUsername, getRole, logout, toggleMockData, isMockDataActive, upgradeToPremium } from '../api';
+import {
+  Flame,
+  Database,
+  LayoutDashboard,
+  Target,
+  Dumbbell,
+  Utensils,
+  TrendingUp,
+  Bell,
+  Users,
+  User,
+  BarChart3,
+  ShieldCheck,
+  Crown,
+  Zap,
+  LogOut,
+  Sun,
+  Moon
+} from 'lucide-react';
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const username = getUsername() || 'User';
-  const role = getRole() || 'USER';
+  // Mock data state
+  const [mockActive, setMockActive] = useState(() => isMockDataActive());
+  const [username, setUsernameState] = useState(() => getUsername() || 'User');
+  const [role, setRoleState] = useState(() => getRole() || 'USER');
+
+  // Light / Dark Theme State (persisted in localStorage)
+  const [theme, setTheme] = useState(() => localStorage.getItem('app-theme') || 'light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('app-theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const syncContext = () => {
+      setUsernameState(getUsername() || 'User');
+      setRoleState(getRole() || 'USER');
+      setMockActive(isMockDataActive());
+    };
+
+    window.addEventListener('profileUpdated', syncContext);
+    window.addEventListener('roleUpdated', syncContext);
+    window.addEventListener('mockDataLoaded', syncContext);
+    return () => {
+      window.removeEventListener('profileUpdated', syncContext);
+      window.removeEventListener('roleUpdated', syncContext);
+      window.removeEventListener('mockDataLoaded', syncContext);
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
+  const handleToggleMockData = () => {
+    const active = toggleMockData();
+    setMockActive(active);
+  };
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
   const isActive = (path) => location.pathname === path;
 
-  // Custom Inline SVGs
-  const dashboardIcon = (
-    <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-  );
-  const goalsIcon = (
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-  );
-  const workoutsIcon = (
-    <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43l-2.83-2.83-.88.88-2.68-2.68.88-.88L13.66 5 12.22 6.44l1.42 1.42-7.78 7.78-1.42-1.42L3 15.64l2.83 2.83.88-.88 2.68 2.68-.88.88L10.34 20l1.42-1.42-1.42-1.42 7.78-7.78 1.42 1.42z"/></svg>
-  );
-  const nutritionIcon = (
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15H9v-2h2v2zm0-4H9V7h2v6zm4 4h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-  );
-  const progressIcon = (
-    <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
-  );
-  const notificationsIcon = (
-    <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-  );
-  const socialIcon = (
-    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 1.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.83 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-  );
-  const analyticsIcon = (
-    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
-  );
-  const adminIcon = (
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-  );
-  const profileIcon = (
-    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-  );
+  const isTrainer = role === 'TRAINER';
+  const isNutritionist = role === 'NUTRITIONIST';
+  const isAdmin = role === 'ADMIN';
+  const isNormalUser = role === 'USER' || role === 'STANDARD_USER';
 
   return (
     <div className="app-container">
-      {/* Mobile Header Toggle */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '60px',
-          backgroundColor: '#1F1B1A',
-          color: '#FFFFFF',
-          padding: '0 24px',
-          zIndex: 110,
-          borderBottom: '1px solid #332B29',
-        }}
-        className="mobile-nav-toggle"
-      >
-        <span style={{ fontWeight: '700', fontSize: '19.2px' }}>AURA FIT</span>
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          style={{ background: 'transparent', border: 'none', color: '#FFFFFF', cursor: 'pointer' }}
-        >
-          <svg style={{ width: '28px', height: '28px', fill: 'currentColor' }} viewBox="0 0 24 24">
-            <path d={sidebarOpen ? "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" : "M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"} />
-          </svg>
-        </button>
-      </div>
-
-      {/* Sidebar Navigation */}
-      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="logo-section">
-          <div className="logo-dot"></div>
-          <span>AURA FIT</span>
+      {/* Floating Liquid Glass Capsule Island Navbar */}
+      <header className="topnav">
+        {/* Left Section: Brand Logo + Vertical Separator Divider */}
+        <div className="topnav-left">
+          <div className="topnav-logo" onClick={() => navigate('/dashboard')} style={{ display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap', flexShrink: 0 }}>
+            <Flame size={24} color="#DC2626" fill="#DC2626" style={{ filter: 'drop-shadow(0 0 6px rgba(220, 38, 38, 0.4))' }} />
+            <span className="logo-text" style={{ whiteSpace: 'nowrap', display: 'inline-block' }}>FITS — Fitness Information & Tracking System</span>
+          </div>
+          <div className="topnav-divider" />
         </div>
 
-        <nav className="nav-links">
+        {/* Center Section: Navigation Text Links */}
+        <nav className="topnav-links">
           <a
             href="/dashboard"
-            onClick={(e) => { e.preventDefault(); navigate('/dashboard'); setSidebarOpen(false); }}
-            className={`nav-item ${isActive('/dashboard') ? 'active' : ''}`}
+            onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}
+            className={`topnav-item ${isActive('/dashboard') ? 'active' : ''}`}
           >
-            {dashboardIcon} Dashboard
-          </a>
-          <a
-            href="/goals"
-            onClick={(e) => { e.preventDefault(); navigate('/goals'); setSidebarOpen(false); }}
-            className={`nav-item ${isActive('/goals') ? 'active' : ''}`}
-          >
-            {goalsIcon} Goals
-          </a>
-          <a
-            href="/workouts"
-            onClick={(e) => { e.preventDefault(); navigate('/workouts'); setSidebarOpen(false); }}
-            className={`nav-item ${isActive('/workouts') ? 'active' : ''}`}
-          >
-            {workoutsIcon} Workouts
-          </a>
-          <a
-            href="/nutrition"
-            onClick={(e) => { e.preventDefault(); navigate('/nutrition'); setSidebarOpen(false); }}
-            className={`nav-item ${isActive('/nutrition') ? 'active' : ''}`}
-          >
-            {nutritionIcon} Nutrition
-          </a>
-          <a
-            href="/progress"
-            onClick={(e) => { e.preventDefault(); navigate('/progress'); setSidebarOpen(false); }}
-            className={`nav-item ${isActive('/progress') ? 'active' : ''}`}
-          >
-            {progressIcon} Progress
-          </a>
-          <a
-            href="/notifications"
-            onClick={(e) => { e.preventDefault(); navigate('/notifications'); setSidebarOpen(false); }}
-            className={`nav-item ${isActive('/notifications') ? 'active' : ''}`}
-          >
-            {notificationsIcon} Notifications
-          </a>
-          <a
-            href="/social"
-            onClick={(e) => { e.preventDefault(); navigate('/social'); setSidebarOpen(false); }}
-            className={`nav-item ${isActive('/social') ? 'active' : ''}`}
-          >
-            {socialIcon} Social
-          </a>
-          <a
-            href="/profile"
-            onClick={(e) => { e.preventDefault(); navigate('/profile'); setSidebarOpen(false); }}
-            className={`nav-item ${isActive('/profile') ? 'active' : ''}`}
-          >
-            {profileIcon} Profile
+            Dashboard
           </a>
 
-          {/* Premium / Admin Route */}
-          {(role === 'PREMIUM_USER' || role === 'ADMIN') && (
+          <a
+            href="/goals"
+            onClick={(e) => { e.preventDefault(); navigate('/goals'); }}
+            className={`topnav-item ${isActive('/goals') ? 'active' : ''}`}
+          >
+            {isTrainer ? 'Client Goals' : isNutritionist ? 'Nutritional Goals' : 'Goals'}
+          </a>
+
+          {!isNutritionist && (
             <a
-              href="/analytics"
-              onClick={(e) => { e.preventDefault(); navigate('/analytics'); setSidebarOpen(false); }}
-              className={`nav-item ${isActive('/analytics') ? 'active' : ''}`}
+              href="/workouts"
+              onClick={(e) => { e.preventDefault(); navigate('/workouts'); }}
+              className={`topnav-item ${isActive('/workouts') ? 'active' : ''}`}
             >
-              {analyticsIcon} Analytics
+              {isTrainer ? 'Client Workouts' : 'Workouts'}
             </a>
           )}
 
-          {/* Admin Only Route */}
-          {role === 'ADMIN' && (
+          {!isTrainer && (
+            <a
+              href="/nutrition"
+              onClick={(e) => { e.preventDefault(); navigate('/nutrition'); }}
+              className={`topnav-item ${isActive('/nutrition') ? 'active' : ''}`}
+            >
+              {isNutritionist ? 'Diet Plans' : 'Nutrition'}
+            </a>
+          )}
+
+          <a
+            href="/progress"
+            onClick={(e) => { e.preventDefault(); navigate('/progress'); }}
+            className={`topnav-item ${isActive('/progress') ? 'active' : ''}`}
+          >
+            Progress
+          </a>
+
+          <a
+            href="/notifications"
+            onClick={(e) => { e.preventDefault(); navigate('/notifications'); }}
+            className={`topnav-item ${isActive('/notifications') ? 'active' : ''}`}
+          >
+            Notifications
+          </a>
+
+          <a
+            href="/social"
+            onClick={(e) => { e.preventDefault(); navigate('/social'); }}
+            className={`topnav-item ${isActive('/social') ? 'active' : ''}`}
+          >
+            {isTrainer || isNutritionist ? 'Clients & Social' : 'Social'}
+          </a>
+
+          <a
+            href="/profile"
+            onClick={(e) => { e.preventDefault(); navigate('/profile'); }}
+            className={`topnav-item ${isActive('/profile') ? 'active' : ''}`}
+          >
+            Profile
+          </a>
+
+          {!isTrainer && !isNutritionist && (isAdmin || role === 'PREMIUM_USER') && (
+            <a
+              href="/analytics"
+              onClick={(e) => { e.preventDefault(); navigate('/analytics'); }}
+              className={`topnav-item ${isActive('/analytics') ? 'active' : ''}`}
+            >
+              Analytics
+            </a>
+          )}
+
+          {isAdmin && (
             <a
               href="/admin/users"
-              onClick={(e) => { e.preventDefault(); navigate('/admin/users'); setSidebarOpen(false); }}
-              className={`nav-item ${isActive('/admin/users') ? 'active' : ''}`}
+              onClick={(e) => { e.preventDefault(); navigate('/admin/users'); }}
+              className={`topnav-item ${isActive('/admin/users') ? 'active' : ''}`}
             >
-              {adminIcon} User Management
+              User Management
             </a>
           )}
         </nav>
 
-        <div className="sidebar-footer">
-          <div className="user-info">
-            <div className="user-name">{username}</div>
-            <div className="user-role">{role}</div>
+        {/* Right Section: Toggles & Action Pill Button */}
+        <div className="topnav-actions">
+          {/* Upgrade to Premium Button for Normal User */}
+          {isNormalUser && (
+            <button
+              id="btn-upgrade-to-premium-sidebar"
+              onClick={async () => {
+                await upgradeToPremium();
+              }}
+              style={{
+                padding: '6px 14px',
+                backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                color: '#DC2626',
+                border: '1px solid rgba(220, 38, 38, 0.3)',
+                borderRadius: '30px',
+                fontWeight: '700',
+                fontSize: '12px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#DC2626';
+                e.currentTarget.style.color = '#FFFFFF';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(220, 38, 38, 0.1)';
+                e.currentTarget.style.color = '#DC2626';
+              }}
+            >
+              <Crown size={14} color="#EAB308" fill="#EAB308" /> Upgrade
+            </button>
+          )}
+
+          {/* 1. SEPARATE LIGHT & DARK MODE THEME TOGGLE */}
+          <div
+            onClick={toggleTheme}
+            title={theme === 'light' ? "Switch to Dark Theme" : "Switch to Light Theme"}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              cursor: 'pointer',
+              backgroundColor: theme === 'dark' ? '#334155' : '#E2E8F0',
+              padding: '3px',
+              borderRadius: '25px',
+              border: '1px solid var(--border-color)',
+              width: '54px',
+              height: '28px',
+              position: 'relative',
+              transition: 'background-color 0.25s ease'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '0 4px' }}>
+              <Sun size={13} color={theme === 'light' ? '#F59E0B' : '#64748B'} />
+              <Moon size={13} color={theme === 'dark' ? '#38BDF8' : '#94A3B8'} />
+            </div>
+            <div
+              style={{
+                width: '22px',
+                height: '22px',
+                backgroundColor: theme === 'dark' ? '#0F172A' : '#FFFFFF',
+                borderRadius: '50%',
+                position: 'absolute',
+                top: '2px',
+                left: theme === 'dark' ? '28px' : '2px',
+                transition: 'left 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease',
+                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justify: 'center'
+              }}
+            >
+              {theme === 'light' ? <Sun size={12} color="#F59E0B" /> : <Moon size={12} color="#38BDF8" />}
+            </div>
           </div>
-          <button className="logout-btn" onClick={handleLogout}>
-            Logout
+
+          {/* 2. SEPARATE NAMELESS MOCK DATA SWITCH TOGGLE */}
+          <div
+            id="btn-load-mock-data"
+            onClick={handleToggleMockData}
+            title={mockActive ? "Mock Data Active (Click to Revert)" : "Enable Sample Mock Data"}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              cursor: 'pointer',
+              backgroundColor: mockActive ? 'rgba(220, 38, 38, 0.1)' : 'var(--card-bg)',
+              padding: '5px 10px',
+              borderRadius: '25px',
+              border: mockActive ? '1px solid #DC2626' : '1px solid var(--border-color)',
+              transition: 'all 0.25s ease'
+            }}
+          >
+            <Database size={15} color={mockActive ? '#DC2626' : 'var(--text-muted)'} />
+            <div
+              style={{
+                width: '32px',
+                height: '18px',
+                backgroundColor: mockActive ? '#DC2626' : '#CBD5E1',
+                borderRadius: '9px',
+                position: 'relative',
+                transition: 'background-color 0.25s ease'
+              }}
+            >
+              <div
+                style={{
+                  width: '14px',
+                  height: '14px',
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '50%',
+                  position: 'absolute',
+                  top: '2px',
+                  left: mockActive ? '16px' : '2px',
+                  transition: 'left 0.25s ease',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* User Status Pill */}
+          <div className="user-pill">
+            <span className="user-pill-name">{username}</span>
+            <span className="user-pill-role">
+              {role === 'ADMIN' ? 'Admin' :
+               role === 'TRAINER' ? 'Trainer' :
+               role === 'NUTRITIONIST' ? 'Nutritionist' :
+               role === 'PREMIUM_USER' ? 'Premium' : role}
+            </span>
+          </div>
+
+          {/* Action Pill Button matching Get Started capsule */}
+          <button className="topnav-logout-btn" onClick={handleLogout} title="Sign Out">
+            Logout <LogOut size={14} />
           </button>
         </div>
-      </aside>
+      </header>
 
-      {/* Main Content Area */}
+      {/* Main Page Content */}
       <main className="main-content">
         {children}
       </main>

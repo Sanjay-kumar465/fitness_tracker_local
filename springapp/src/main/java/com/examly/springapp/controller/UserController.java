@@ -20,22 +20,58 @@ public class UserController {
         this.userProfileService = userProfileService;
     }
 
+    @GetMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<java.util.List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
+    @GetMapping("/by-username/{username}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username));
+    }
+
+    @GetMapping("/search")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<java.util.List<User>> searchUsers(@RequestParam String query) {
+        return ResponseEntity.ok(userService.searchUsers(query));
+    }
+
     @GetMapping("/{id}/profile")
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserProfile> getUserProfile(@PathVariable Long id) {
         return ResponseEntity.ok(userProfileService.getUserProfile(id));
     }
 
     @PutMapping("/{id}/profile")
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserProfile> updateUserProfile(@PathVariable Long id,
             @RequestBody UserProfile updatedProfile) {
         return ResponseEntity.ok(userProfileService.updateUserProfile(id, updatedProfile));
+    }
+
+    @PutMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<User> updateUserRole(@PathVariable Long id, @RequestBody java.util.Map<String, String> payload) {
+        String roleStr = payload.get("role");
+        if (roleStr == null) {
+            throw new IllegalArgumentException("Role is required");
+        }
+        com.examly.springapp.enums.Role role = com.examly.springapp.enums.Role.valueOf(roleStr);
+        return ResponseEntity.ok(userService.updateUserRole(id, role));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

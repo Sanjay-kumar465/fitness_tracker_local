@@ -14,13 +14,13 @@ public class ProgressTrackingController {
     private ProgressTrackingService progressTrackingService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('STANDARD_USER', 'USER', 'PREMIUM_USER', 'TRAINER', 'ADMIN')")
     public ResponseEntity<ProgressTracking> logProgress(@RequestBody ProgressTracking progress) {
         return ResponseEntity.ok(progressTrackingService.addProgressEntry(progress));
     }
 
     @GetMapping("/goal/{goalId}")
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('STANDARD_USER', 'USER', 'PREMIUM_USER', 'TRAINER', 'ADMIN')")
     public ResponseEntity<List<ProgressTracking>> getProgressByGoalId(@PathVariable Long goalId) {
         return ResponseEntity.ok(progressTrackingService.getProgressByFitnessGoalId(goalId));
     }

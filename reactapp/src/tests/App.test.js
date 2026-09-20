@@ -17,7 +17,7 @@ jest.spyOn(window, 'alert').mockImplementation(() => {});
 
 describe("ReactAppTests", () => {
   test("React_BuildUIComponents_WhatisReactSPAsetupwithCreateReactApp", () => {
-    render(<App />); // ✅ No MemoryRouter
+    render(<App />); // No MemoryRouter
     expect(screen.getByText(/Home/i)).toBeInTheDocument();
   });
   

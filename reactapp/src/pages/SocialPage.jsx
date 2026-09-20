@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { getUserConnections, sendConnectionRequest, acceptConnectionRequest, getUserId } from '../api';
+import { getUserConnections, sendConnectionRequestByUsername, sendConnectionRequest, acceptConnectionRequest, getUserId, getUsername } from '../api';
+import { UserPlus } from 'lucide-react';
 
 const SocialPage = () => {
   const [connections, setConnections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [targetFriendId, setTargetFriendId] = useState('');
+  
+  // Search / Add States
+  const [friendUsernameInput, setFriendUsernameInput] = useState('');
   const [connectionType, setConnectionType] = useState('FRIEND');
   const [submitting, setSubmitting] = useState(false);
 
-  const currentUserId = Number(getUserId());
+  const currentUserId = Number(getUserId()) || 1;
+  const currentUsername = getUsername() || 'sanjaykumar465';
 
   const loadConnections = async () => {
     try {
@@ -26,27 +30,40 @@ const SocialPage = () => {
 
   useEffect(() => {
     loadConnections();
+    window.addEventListener('mockDataLoaded', loadConnections);
+    return () => window.removeEventListener('mockDataLoaded', loadConnections);
   }, []);
 
+  // Add Friend by DB Username
   const handleSendRequest = async (e) => {
     e.preventDefault();
-    if (!targetFriendId) {
-      alert('Please enter a target User ID');
+    if (!friendUsernameInput.trim()) {
+      alert('Please enter a Friend Username');
       return;
     }
-    if (Number(targetFriendId) === currentUserId) {
+
+    const inputUsername = friendUsernameInput.trim();
+    if (inputUsername === currentUsername) {
       alert('You cannot send a connection request to yourself');
       return;
     }
 
     try {
       setSubmitting(true);
-      await sendConnectionRequest(Number(targetFriendId), connectionType);
-      alert('Request sent successfully!');
-      setTargetFriendId('');
-      loadConnections();
+      const isNum = !isNaN(Number(inputUsername));
+      
+      let res;
+      if (isNum) {
+        res = await sendConnectionRequest(Number(inputUsername), connectionType);
+      } else {
+        res = await sendConnectionRequestByUsername(inputUsername, connectionType);
+      }
+
+      alert(`Connection request sent to ${inputUsername}!`);
+      setFriendUsernameInput('');
+      await loadConnections();
     } catch (err) {
-      alert('Failed to send connection request. Check if the user ID exists.');
+      alert(`Failed to send connection request. Ensure '${inputUsername}' is registered in database.`);
     } finally {
       setSubmitting(false);
     }
@@ -63,17 +80,15 @@ const SocialPage = () => {
   };
 
   // Filter connections:
-  // Friends list (ACCEPTED)
   const friends = connections.filter(c => c.status === 'ACCEPTED');
   
-  // Incoming requests (PENDING and friend matches current user)
   const incomingRequests = connections.filter(
     c => c.status === 'PENDING' && c.friend && c.friend.id === currentUserId
   );
 
-  // Outgoing requests (PENDING and user matches current user)
   const outgoingRequests = connections.filter(
-    c => c.status === 'PENDING' && c.user && c.user.id === currentUserId
+    c => (c.status === 'PENDING' && c.user && c.user.id === currentUserId) ||
+         (c.status === 'PENDING' && c.user?.username === currentUsername)
   );
 
   return (
@@ -89,9 +104,9 @@ const SocialPage = () => {
         <div>
           {/* Incoming Requests */}
           {incomingRequests.length > 0 && (
-            <div className="content-card" style={{ borderColor: '#eaff42', borderWidth: '2px' }}>
+            <div className="content-card" style={{ borderColor: '#A3E635', borderWidth: '2px', marginBottom: '24px' }}>
               <h3 className="card-title" style={{ color: '#1F1B1A', marginBottom: '16px' }}>
-                Pending Friend Requests
+                Pending Friend Requests ({incomingRequests.length})
               </h3>
               <div className="goal-list">
                 {incomingRequests.map((req) => (
@@ -108,7 +123,7 @@ const SocialPage = () => {
                       className="btn btn-primary btn-sm"
                       onClick={() => handleAcceptRequest(req.id)}
                     >
-                      Accept
+                      Accept Connection
                     </button>
                   </div>
                 ))}
@@ -118,7 +133,9 @@ const SocialPage = () => {
 
           {/* Friends List */}
           <div className="content-card">
-            <h3 className="card-title" style={{ marginBottom: '24px' }}>My Connections</h3>
+            <h3 className="card-title" style={{ marginBottom: '24px' }}>
+              My Connections ({friends.length})
+            </h3>
 
             {loading ? (
               <div className="spinner-container">
@@ -130,22 +147,23 @@ const SocialPage = () => {
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 1.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.83 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                 </svg>
                 <div className="empty-title">No connections yet</div>
-                <div className="empty-subtitle">Send a connection request on the right to start building your network.</div>
+                <div className="empty-subtitle">Add a friend by their username on the right to start connecting.</div>
               </div>
             ) : (
               <div className="goal-list">
                 {friends.map((friendship) => {
-                  // The friend in the list is whichever user is NOT the current logged in user
-                  const friendInfo = friendship.user.id === currentUserId ? friendship.friend : friendship.user;
+                  const friendInfo = (friendship.user?.id === currentUserId || friendship.user?.username === currentUsername)
+                    ? (friendship.friend || { username: 'Friend', id: 0 })
+                    : (friendship.user || friendship.friend || { username: 'Friend', id: 0 });
                   return (
                     <div key={friendship.id} className="goal-item">
                       <div className="item-info">
                         <span className="item-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ width: '8px', height: '8px', backgroundColor: '#eaff42', borderRadius: '50%' }}></span>
-                          {friendInfo.username}
+                          <span style={{ width: '8px', height: '8px', backgroundColor: '#A3E635', borderRadius: '50%' }}></span>
+                          {friendInfo.username || 'Connection'}
                         </span>
                         <span className="item-details">
-                          Connected as {friendship.connectionType || 'Friend'} | Since {friendship.createdDate?.split('T')[0]}
+                          Connected as {friendship.connectionType?.replace('_', ' ') || 'Friend'} | {friendInfo.email || 'Active User'}
                         </span>
                       </div>
                       <span className="tag tag-active">Connected</span>
@@ -160,14 +178,14 @@ const SocialPage = () => {
           {outgoingRequests.length > 0 && (
             <div className="content-card" style={{ marginTop: '24px' }}>
               <h3 className="card-title" style={{ marginBottom: '16px', fontSize: '16px' }}>
-                Sent Requests (Pending)
+                Sent Requests ({outgoingRequests.length})
               </h3>
               <div className="goal-list">
                 {outgoingRequests.map((req) => (
                   <div key={req.id} className="goal-item" style={{ opacity: 0.8 }}>
                     <div className="item-info">
                       <span className="item-title">{req.friend?.username || `User #${req.friend?.id}`}</span>
-                      <span className="item-details">Requested Connection Type: {req.connectionType}</span>
+                      <span className="item-details">Type: {req.connectionType}</span>
                     </div>
                     <span className="tag tag-paused">Pending</span>
                   </div>
@@ -177,29 +195,31 @@ const SocialPage = () => {
           )}
         </div>
 
-        {/* Right Column: Send Connection Form */}
+        {/* Right Column: Clean DB Username Friend Addition Form */}
         <div>
           <div className="content-card">
-            <h3 className="card-title" style={{ marginBottom: '24px' }}>Send Request</h3>
+            <h3 className="card-title" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <UserPlus size={18} /> Add Friend by Username
+            </h3>
             
             <form onSubmit={handleSendRequest}>
               <div className="form-group">
-                <label className="form-label">Friend's User ID (Database Number)</label>
+                <label className="form-label">Friend's Username (from Database)</label>
                 <input
-                  type="number"
-                  placeholder="e.g. 2"
+                  type="text"
+                  placeholder="e.g. sanjaykumar465 or alex_rivera"
                   className="form-control"
-                  value={targetFriendId}
-                  onChange={(e) => setTargetFriendId(e.target.value)}
+                  value={friendUsernameInput}
+                  onChange={(e) => setFriendUsernameInput(e.target.value)}
                   required
                   disabled={submitting}
                 />
                 <p style={{ fontSize: '12px', color: '#6B5E5B', marginTop: '6.4px' }}>
-                  Enter the numerical database ID of the user you wish to connect with.
+                  Enter the registered database username of the friend you want to add.
                 </p>
               </div>
 
-              <div className="form-group" style={{ marginBottom: '32px' }}>
+              <div className="form-group" style={{ marginBottom: '24px' }}>
                 <label className="form-label">Connection Type</label>
                 <select
                   className="form-control"
@@ -208,13 +228,14 @@ const SocialPage = () => {
                   disabled={submitting}
                 >
                   <option value="FRIEND">Friend</option>
+                  <option value="WORKOUT_PARTNER">Workout Partner</option>
                   <option value="TRAINER">Trainer</option>
                   <option value="NUTRITIONIST">Nutritionist</option>
                 </select>
               </div>
 
               <button type="submit" className="btn btn-primary btn-block" disabled={submitting}>
-                {submitting ? 'Sending Request...' : 'Send Friend Request'}
+                {submitting ? 'Sending Request...' : 'Send Connection Request'}
               </button>
             </form>
           </div>

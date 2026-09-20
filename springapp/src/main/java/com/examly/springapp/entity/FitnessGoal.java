@@ -18,7 +18,7 @@ public class FitnessGoal {
     private User user;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "goal_type", nullable = false, length = 50)
     private GoalType goalType;
 
     @Column(nullable = false)
@@ -33,11 +33,11 @@ public class FitnessGoal {
     private LocalDate targetDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private GoalStatus status = GoalStatus.IN_PROGRESS;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private Priority priority;
 
     private LocalDateTime createdDate = LocalDateTime.now();

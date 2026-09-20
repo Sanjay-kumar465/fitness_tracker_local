@@ -22,6 +22,8 @@ const NotificationsPage = () => {
 
   useEffect(() => {
     loadNotifications();
+    window.addEventListener('mockDataLoaded', loadNotifications);
+    return () => window.removeEventListener('mockDataLoaded', loadNotifications);
   }, []);
 
   const getFilteredNotifications = () => {

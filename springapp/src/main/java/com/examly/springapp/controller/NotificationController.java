@@ -16,6 +16,12 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
+    @PostMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Notification> sendNotification(@RequestBody Notification notification) {
+        return ResponseEntity.ok(notificationService.sendNotification(notification));
+    }
+
     @GetMapping("/user/{userId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Notification>> getUserNotifications(@PathVariable Long userId) {

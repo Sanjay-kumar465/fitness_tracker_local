@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getToken } from '../api';
+import { Flame, Target, Dumbbell, Utensils, TrendingUp, ArrowRight } from 'lucide-react';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -14,14 +15,14 @@ const LandingPage = () => {
 
   return (
     <div className="landing-container">
-      {/* Landing Navbar */}
+      {/* Landing Top Navbar */}
       <header className="landing-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700', fontSize: '19.2px' }}>
-          <div style={{ width: '10px', height: '10px', backgroundColor: '#eaff42', borderRadius: '50%' }}></div>
-          <span>AURA FIT</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => navigate('/')}>
+          <Flame size={26} color="#DC2626" fill="#DC2626" style={{ filter: 'drop-shadow(0 0 6px rgba(220, 38, 38, 0.4))' }} />
+          <span style={{ fontWeight: '800', fontSize: '20px', color: 'var(--text-dark)', letterSpacing: '-0.5px' }}>FITS — Fitness Information & Tracking System</span>
         </div>
-        <div className="landing-nav" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <span style={{ fontWeight: '600', cursor: 'pointer', fontSize: '14.4px' }} onClick={() => navigate('/')}>Home</span>
+        <div className="landing-nav">
+          <span className="topnav-item active" style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>Home</span>
           <button className="btn btn-outline btn-sm" onClick={() => navigate('/login')}>
             Login
           </button>
@@ -34,15 +35,18 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section className="landing-hero">
         <div className="hero-text">
+          <div className="tag tag-active" style={{ width: 'fit-content', padding: '6px 14px', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <Flame size={14} /> Next-Gen Fitness & Goal Tracking
+          </div>
           <h1 className="hero-title">Track your goals, shape your future.</h1>
           <p className="hero-description">
-            Aura Fit is a clean, minimal, and premium fitness tracker designed to help you set concrete targets, log daily activities, and monitor your physical transformation journey over time.
+            Ignite Fit is a clean, minimal, and premium fitness tracker designed to help you set concrete targets, log daily workout activities, and monitor your physical transformation over time.
           </p>
-          <div style={{ display: 'flex', gap: '16px', marginTop: '16px' }}>
-            <button className="btn btn-primary" onClick={() => navigate('/register')}>
-              Get Started
+          <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
+            <button className="btn btn-primary" style={{ padding: '12px 24px', fontSize: '15px' }} onClick={() => navigate('/register')}>
+              Get Started Free <ArrowRight size={18} />
             </button>
-            <button className="btn btn-secondary" onClick={() => navigate('/login')}>
+            <button className="btn btn-secondary" style={{ padding: '12px 24px', fontSize: '15px' }} onClick={() => navigate('/login')}>
               Sign In
             </button>
           </div>
@@ -50,21 +54,22 @@ const LandingPage = () => {
 
         <div className="hero-visual">
           <svg className="hero-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Background elements */}
-            <circle cx="250" cy="250" r="180" fill="#D6C3BC" fillOpacity="0.4" />
-            <circle cx="250" cy="250" r="140" stroke="#1F1B1A" strokeWidth="2" strokeDasharray="8 8" />
+            {/* Background glowing circles */}
+            <circle cx="250" cy="250" r="200" fill="#FEF2F2" opacity="0.8" />
+            <circle cx="250" cy="250" r="150" stroke="#FCA5A5" strokeWidth="2" strokeDasharray="8 8" />
+            <circle cx="250" cy="250" r="100" stroke="#DC2626" strokeWidth="1" opacity="0.3" />
             
-            {/* Running track representing goals */}
-            <path d="M 120 250 A 130 130 0 0 1 380 250" stroke="#1F1B1A" strokeWidth="6" strokeLinecap="round" />
-            <path d="M 380 250 A 130 130 0 0 1 120 250" stroke="#eaff42" strokeWidth="6" strokeLinecap="round" strokeDasharray="150 400" />
+            {/* Running arc track representing goal progress */}
+            <path d="M 100 250 A 150 150 0 0 1 400 250" stroke="#CBD5E1" strokeWidth="12" strokeLinecap="round" />
+            <path d="M 400 250 A 150 150 0 0 1 130 290" stroke="#DC2626" strokeWidth="12" strokeLinecap="round" strokeDasharray="220 500" />
             
-            {/* Geometric representation of runner/activity */}
-            <rect x="235" y="140" width="30" height="120" rx="15" transform="rotate(25 250 200)" fill="#1F1B1A" />
-            <circle cx="295" cy="120" r="18" fill="#eaff42" />
-            <line x1="220" y1="230" x2="180" y2="320" stroke="#1F1B1A" strokeWidth="12" strokeLinecap="round" />
-            <line x1="280" y1="230" x2="310" y2="330" stroke="#1F1B1A" strokeWidth="12" strokeLinecap="round" />
-            <path d="M 230 180 L 160 210" stroke="#1F1B1A" strokeWidth="8" strokeLinecap="round" />
-            <path d="M 270 190 L 320 210" stroke="#eaff42" strokeWidth="8" strokeLinecap="round" />
+            {/* Dynamic runner silhouette */}
+            <rect x="235" y="130" width="32" height="120" rx="16" transform="rotate(25 250 190)" fill="#0F172A" />
+            <circle cx="300" cy="115" r="20" fill="#DC2626" />
+            <line x1="220" y1="240" x2="170" y2="340" stroke="#0F172A" strokeWidth="14" strokeLinecap="round" />
+            <line x1="285" y1="240" x2="320" y2="350" stroke="#0F172A" strokeWidth="14" strokeLinecap="round" />
+            <path d="M 235 180 L 160 215" stroke="#0F172A" strokeWidth="10" strokeLinecap="round" />
+            <path d="M 275 195 L 335 215" stroke="#DC2626" strokeWidth="10" strokeLinecap="round" />
           </svg>
         </div>
       </section>
@@ -76,7 +81,7 @@ const LandingPage = () => {
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"/></svg>
+                <Target size={32} color="#DC2626" />
               </div>
               <h3 className="feature-title">Fitness Goals</h3>
               <p className="feature-desc">Establish and monitor customized weight loss, weight gain, endurance, or muscle building goals.</p>
@@ -84,7 +89,7 @@ const LandingPage = () => {
 
             <div className="feature-card">
               <div className="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43l-2.83-2.83-.88.88-2.68-2.68.88-.88L13.66 5 12.22 6.44l1.42 1.42-7.78 7.78-1.42-1.42L3 15.64l2.83 2.83.88-.88 2.68 2.68-.88.88L10.34 20l1.42-1.42-1.42-1.42 7.78-7.78 1.42 1.42z"/></svg>
+                <Dumbbell size={32} color="#DC2626" />
               </div>
               <h3 className="feature-title">Workout Tracking</h3>
               <p className="feature-desc">Log exact exercises, duration, sets, repetitions, and weights completed daily.</p>
@@ -92,7 +97,7 @@ const LandingPage = () => {
 
             <div className="feature-card">
               <div className="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15H9v-2h2v2zm0-4H9V7h2v6zm4 4h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                <Utensils size={32} color="#DC2626" />
               </div>
               <h3 className="feature-title">Nutrition Tracking</h3>
               <p className="feature-desc">Keep record of foods, quantities, macronutrient splits, and total calories consumed.</p>
@@ -100,7 +105,7 @@ const LandingPage = () => {
 
             <div className="feature-card">
               <div className="feature-icon">
-                <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                <TrendingUp size={32} color="#DC2626" />
               </div>
               <h3 className="feature-title">Progress Insights</h3>
               <p className="feature-desc">Document historical metric updates and plot visual trends linked to active goals.</p>
@@ -110,8 +115,8 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '32px', textAlign: 'center', fontSize: '13.6px', color: '#6B5E5B', borderTop: '1px solid #DCD2CE' }}>
-        &copy; {new Date().getFullYear()} Aura Fit. All rights reserved.
+      <footer style={{ padding: '32px', textAlign: 'center', fontSize: '13.5px', color: 'var(--text-muted)', borderTop: '1px solid var(--border-color)', backgroundColor: 'var(--card-bg)' }}>
+        &copy; {new Date().getFullYear()} Ignite Fit. All rights reserved.
       </footer>
     </div>
   );

@@ -1,11 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { saveEntry } from '../api';
+import { saveEntry, getRole, getTargetUsers } from '../api';
+import { User } from 'lucide-react';
 
 const GoalForm = ({ onGoalAdded }) => {
   const [goalType, setGoalType] = useState('');
   const [targetAmount, setTargetAmount] = useState('');
   const [achievedAmount, setAchievedAmount] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+
+  // Target User State for Trainers, Nutritionists & Admins
+  const [targetUserId, setTargetUserId] = useState('');
+  const [targetUsersList, setTargetUsersList] = useState([]);
+  const [role, setRoleState] = useState(() => getRole() || 'USER');
+
+  useEffect(() => {
+    setRoleState(getRole() || 'USER');
+    const fetchTargets = async () => {
+      const list = await getTargetUsers();
+      setTargetUsersList(list || []);
+    };
+    fetchTargets();
+  }, []);
+
+  const normRole = (role || '').toUpperCase();
+  const isTrainerOrStaff = ['TRAINER', 'NUTRITIONIST', 'ADMIN'].some(r => normRole.includes(r));
 
   // Special test mapping rule: Test 3 ("Cycle") expects form submit to fail due to missing date.
   // We simulate this by clearing the date input if "Cycle" is entered,
@@ -35,6 +53,7 @@ const GoalForm = ({ onGoalAdded }) => {
         targetAmount: Number(targetAmount),
         achievedAmount: Number(achievedAmount),
         date,
+        targetUserId
       });
 
       alert('Goal added!');
@@ -56,6 +75,25 @@ const GoalForm = ({ onGoalAdded }) => {
   return (
     <form onSubmit={handleSubmit} className="content-card">
       <h3 className="card-title" style={{ marginBottom: '16px' }}>Add New Goal</h3>
+
+      {isTrainerOrStaff && (
+        <div className="form-group" style={{ marginBottom: '16px' }}>
+          <label className="form-label" style={{ color: '#DC2626', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <User size={14} color="#DC2626" /> Select Client / Target User
+          </label>
+          <select
+            className="form-control"
+            value={targetUserId}
+            onChange={(e) => setTargetUserId(e.target.value)}
+            style={{ borderColor: '#FCA5A5', backgroundColor: '#FEF2F2', fontWeight: '700' }}
+          >
+            <option value="">Self (Current Account)</option>
+            {targetUsersList.map(u => (
+              <option key={u.id} value={u.id}>{u.label}</option>
+            ))}
+          </select>
+        </div>
+      )}
       
       <div className="form-group">
         <label className="form-label">Goal Type</label>

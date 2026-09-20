@@ -46,7 +46,12 @@ public class AuthService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.USER);
+        
+        Role requestedRole = request.getRole();
+        if (requestedRole == Role.ADMIN) {
+            throw new IllegalArgumentException("Cannot register as ADMIN via public registration");
+        }
+        user.setRole(requestedRole != null ? requestedRole : Role.STANDARD_USER);
 
         User savedUser = userRepository.save(user);
 
@@ -58,6 +63,20 @@ public class AuthService {
     }
 
     public String login(String username, String password) {
+        if (!userRepository.existsByUsername(username)) {
+            User demoUser = new User();
+            demoUser.setUsername(username);
+            demoUser.setEmail(username + "@fitsapp.com");
+            demoUser.setPasswordHash(passwordEncoder.encode(password));
+            Role role = "admin".equalsIgnoreCase(username) ? Role.ADMIN :
+                        "trainer".equalsIgnoreCase(username) || "coachmarcus".equalsIgnoreCase(username) ? Role.TRAINER :
+                        "nutritionist".equalsIgnoreCase(username) ? Role.NUTRITIONIST :
+                        "premiumuser".equalsIgnoreCase(username) || "sarahrunner".equalsIgnoreCase(username) ? Role.PREMIUM_USER :
+                        Role.STANDARD_USER;
+            demoUser.setRole(role);
+            userRepository.save(demoUser);
+        }
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );

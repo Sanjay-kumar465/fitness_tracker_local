@@ -37,15 +37,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                  <div className="app-header">
-                    <h1 className="page-title">Dashboard</h1>
-                  </div>
-                  <div className="dashboard-grid">
-                    <Dashboard />
-                    <ActivityLog />
-                  </div>
-                </div>
+                <Dashboard />
               </Layout>
             </ProtectedRoute>
           }
@@ -67,9 +59,11 @@ function App() {
           path="/workouts"
           element={
             <ProtectedRoute>
-              <Layout>
-                <WorkoutsPage />
-              </Layout>
+              <RoleRoute allowedRoles={['USER', 'STANDARD_USER', 'PREMIUM_USER', 'TRAINER', 'ADMIN']}>
+                <Layout>
+                  <WorkoutsPage />
+                </Layout>
+              </RoleRoute>
             </ProtectedRoute>
           }
         />
@@ -78,9 +72,11 @@ function App() {
           path="/nutrition"
           element={
             <ProtectedRoute>
-              <Layout>
-                <NutritionPage />
-              </Layout>
+              <RoleRoute allowedRoles={['USER', 'STANDARD_USER', 'PREMIUM_USER', 'NUTRITIONIST', 'ADMIN']}>
+                <Layout>
+                  <NutritionPage />
+                </Layout>
+              </RoleRoute>
             </ProtectedRoute>
           }
         />

@@ -33,6 +33,10 @@ public class UserProfileServiceImpl implements UserProfileService {
         existing.setActivityLevel(updatedProfile.getActivityLevel());
         existing.setHealthConditions(updatedProfile.getHealthConditions());
 
+        if (updatedProfile.getUser() != null && updatedProfile.getUser().getRole() != null) {
+            existing.getUser().setRole(updatedProfile.getUser().getRole());
+        }
+
         return userProfileRepository.save(existing);
     }
 }

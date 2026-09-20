@@ -25,12 +25,27 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name());
+        java.util.List<GrantedAuthority> authorities = new java.util.ArrayList<>();
+        if (user.getRole() != null) {
+            String roleName = user.getRole().name();
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + roleName));
+            if ("STANDARD_USER".equals(roleName) || "USER".equals(roleName)) {
+                if (!"ROLE_STANDARD_USER".equals("ROLE_" + roleName)) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_STANDARD_USER"));
+                }
+                if (!"ROLE_USER".equals("ROLE_" + roleName)) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                }
+            }
+        } else {
+            authorities.add(new SimpleGrantedAuthority("ROLE_STANDARD_USER"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPasswordHash(),
-                Collections.singletonList(authority)
+                authorities
         );
     }
 }

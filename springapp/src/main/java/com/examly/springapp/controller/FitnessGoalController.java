@@ -14,25 +14,25 @@ public class FitnessGoalController {
     private FitnessGoalService fitnessGoalService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('STANDARD_USER', 'USER', 'PREMIUM_USER', 'TRAINER', 'NUTRITIONIST', 'ADMIN')")
     public ResponseEntity<FitnessGoal> createGoal(@RequestBody FitnessGoal goal) {
         return ResponseEntity.ok(fitnessGoalService.createGoal(goal));
     }
 
     @GetMapping("/user/{userId}")
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('STANDARD_USER', 'USER', 'PREMIUM_USER', 'TRAINER', 'NUTRITIONIST', 'ADMIN')")
     public ResponseEntity<List<FitnessGoal>> getGoalsByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(fitnessGoalService.getUserGoals(userId));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('STANDARD_USER', 'USER', 'PREMIUM_USER', 'TRAINER', 'NUTRITIONIST', 'ADMIN')")
     public ResponseEntity<FitnessGoal> updateGoal(@PathVariable Long id, @RequestBody FitnessGoal updatedGoal) {
         return ResponseEntity.ok(fitnessGoalService.updateGoal(id, updatedGoal));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('STANDARD_USER', 'USER', 'PREMIUM_USER', 'TRAINER', 'NUTRITIONIST', 'ADMIN')")
     public ResponseEntity<Void> deleteGoal(@PathVariable Long id) {
         fitnessGoalService.deleteGoal(id);
         return ResponseEntity.noContent().build();

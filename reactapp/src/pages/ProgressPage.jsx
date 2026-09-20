@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getUserGoals, getProgressByGoal, logProgress } from '../api';
+import { ProgressValueVsDateChart } from '../components/FitnessCharts';
 
 const ProgressPage = () => {
   const [goals, setGoals] = useState([]);
@@ -31,6 +32,8 @@ const ProgressPage = () => {
       }
     };
     loadGoalsData();
+    window.addEventListener('mockDataLoaded', loadGoalsData);
+    return () => window.removeEventListener('mockDataLoaded', loadGoalsData);
   }, []);
 
   // Load progress logs when selectedGoalId changes
@@ -165,35 +168,9 @@ const ProgressPage = () => {
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                  {/* Visual Chart Bars (CSS-based) */}
-                  <div className="chart-bar-list" style={{ backgroundColor: '#FAF8F7', padding: '24px', borderRadius: '8px', border: '1px solid #DCD2CE' }}>
-                    <div style={{ fontSize: '12.8px', fontWeight: 700, textTransform: 'uppercase', color: '#6B5E5B', marginBottom: '8px' }}>
-                      Progress Trend (Value vs Date)
-                    </div>
-                    {progressLogs.map((log) => {
-                      const maxVal = Math.max(...progressLogs.map(l => l.progressValue), 1);
-                      const pct = (log.progressValue / maxVal) * 100;
-                      return (
-                        <div key={log.id} className="chart-bar-item">
-                          <div className="chart-bar-info">
-                            <span>{log.date}</span>
-                            <span style={{ fontWeight: '700' }}>{log.progressValue}</span>
-                          </div>
-                          <div style={{ width: '100%', backgroundColor: '#DCD2CE', height: '16px', borderRadius: '4px', overflow: 'hidden' }}>
-                            <div
-                              style={{
-                                width: `${pct}%`,
-                                height: '100%',
-                                backgroundColor: '#D6C3BC',
-                                borderLeft: '4px solid #eaff42',
-                                transition: 'width 0.5s ease-out'
-                              }}
-                            ></div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  {/* Visual Chart Bars (Value vs Date) */}
+                  <ProgressValueVsDateChart logs={progressLogs} />
+
 
                   {/* Tabular logs */}
                   <div className="responsive-table-container">

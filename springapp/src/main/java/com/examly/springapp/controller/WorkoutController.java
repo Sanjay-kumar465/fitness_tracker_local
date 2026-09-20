@@ -18,7 +18,7 @@ public class WorkoutController {
     private WorkoutService workoutService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('STANDARD_USER', 'USER', 'PREMIUM_USER', 'TRAINER', 'ADMIN')")
     public ResponseEntity<Workout> createWorkout(@RequestBody Workout workout) {
         return ResponseEntity.ok(workoutService.createWorkout(workout));
     }

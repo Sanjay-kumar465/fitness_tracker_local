@@ -35,6 +35,8 @@ public class RegisterRequest {
     @NotNull(message = "Fitness level is required")
     private FitnessLevel fitnessLevel;
 
+    private com.examly.springapp.enums.Role role;
+
     public RegisterRequest() {
     }
 
@@ -43,12 +45,14 @@ public class RegisterRequest {
             String email,
             String password,
             LocalDate dateOfBirth,
-            FitnessLevel fitnessLevel) {
+            FitnessLevel fitnessLevel,
+            com.examly.springapp.enums.Role role) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.fitnessLevel = fitnessLevel;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -89,5 +93,13 @@ public class RegisterRequest {
 
     public void setFitnessLevel(FitnessLevel fitnessLevel) {
         this.fitnessLevel = fitnessLevel;
+    }
+
+    public com.examly.springapp.enums.Role getRole() {
+        return role;
+    }
+
+    public void setRole(com.examly.springapp.enums.Role role) {
+        this.role = role;
     }
 }

@@ -7,8 +7,7 @@ import com.examly.springapp.enums.GoalStatus;
 import com.examly.springapp.enums.GoalType;
 import com.examly.springapp.enums.Priority;
 import com.examly.springapp.enums.Role;
-import com.examly.springapp.repository.FitnessGoalRepository;
-import com.examly.springapp.repository.UserRepository;
+import com.examly.springapp.repository.*;
 import com.examly.springapp.service.FitnessGoalService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +41,19 @@ public class SpringappApplicationTest {
     private UserRepository userRepository;
 
     @Autowired
+    private ProgressTrackingRepository progressTrackingRepository;
+
+    @Autowired
+    private UserProfileRepository userProfileRepository;
+
+    @Autowired
     private FitnessGoalService service;
+
+    @Autowired
+    private DietPlanRepository dietPlanRepository;
+
+    @Autowired
+    private WorkoutPlanRepository workoutPlanRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -52,7 +63,11 @@ public class SpringappApplicationTest {
 
     @BeforeEach
     public void setup() {
+        dietPlanRepository.deleteAll();
+        workoutPlanRepository.deleteAll();
+        progressTrackingRepository.deleteAll();
         repository.deleteAll();
+        userProfileRepository.deleteAll();
         userRepository.deleteAll();
 
         testUser = new User();

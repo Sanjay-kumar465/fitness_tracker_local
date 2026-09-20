@@ -32,6 +32,8 @@ const GoalsPage = () => {
 
   useEffect(() => {
     loadGoals();
+    window.addEventListener('mockDataLoaded', loadGoals);
+    return () => window.removeEventListener('mockDataLoaded', loadGoals);
   }, []);
 
   const handleDelete = async (id) => {

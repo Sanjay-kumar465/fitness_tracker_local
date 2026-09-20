@@ -14,13 +14,13 @@ public class NutritionController {
     private NutritionService nutritionService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('STANDARD_USER', 'USER', 'PREMIUM_USER', 'NUTRITIONIST', 'ADMIN')")
     public ResponseEntity<NutritionEntry> createNutritionEntry(@RequestBody NutritionEntry entry) {
         return ResponseEntity.ok(nutritionService.createNutritionEntry(entry));
     }
 
     @GetMapping("/user/{userId}")
-    @PreAuthorize("hasAnyRole('USER', 'PREMIUM_USER', 'ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<NutritionEntry>> getNutritionByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(nutritionService.getUserNutritionEntries(userId));
     }

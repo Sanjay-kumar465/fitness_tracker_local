@@ -17,13 +17,13 @@ public class SocialConnectionController {
     private SocialConnectionService socialConnectionService;
 
     @PostMapping("/request")
-    @PreAuthorize("hasAnyRole('STANDARD_USER', 'PREMIUM_USER', 'TRAINER', 'ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<SocialConnection> sendRequest(@RequestBody SocialConnection connection) {
         return ResponseEntity.ok(socialConnectionService.sendRequest(connection));
     }
 
     @PutMapping("/{connectionId}/accept")
-    @PreAuthorize("hasAnyRole('STANDARD_USER', 'PREMIUM_USER', 'TRAINER', 'ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<SocialConnection> acceptRequest(@PathVariable Long connectionId) {
         return ResponseEntity.ok(socialConnectionService.acceptRequest(connectionId));
     }
